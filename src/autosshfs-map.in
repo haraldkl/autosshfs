@@ -118,5 +118,5 @@ then
   HOST="${HOST:0:$[$COLONPOS - 1]}"
 fi
 
-# -fstype=fuse,rw,allow_other,... / sshfs\#remote_host:/
-echo -e "${OPTS} \t/\t sshfs\#${HOST}:/"
+# -fstype=fuse,rw,allow_other,... / :sshfs\#remote_host:
+echo -e "${OPTS} \t/\t :sshfs\#${HOST}:"
