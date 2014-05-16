@@ -1,7 +1,7 @@
-PREFIX   = /usr/local
-GROUP    = autosshfs
-RESTART  = $(shell $(CURDIR)/../bin/which_restart)
-HOMEDIR  = /home
+PREFIX  = /usr/local
+GROUP   = autosshfs
+RESTART = $(shell $(CURDIR)/../bin/which_restart)
+HOMEDIR = /home
 
 SCRIPTS = autosshfs-map autosshfs-ssh autosshfs-user
 
