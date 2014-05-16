@@ -42,7 +42,7 @@ fail() {
 
 # Get username from PWD.  It assumes the mountpoint is under user's $HOME.
 USER=$(builtin pwd)
-USER=${USER#/home/}
+USER=${USER#%HOMEDIR%/}
 USER=${USER%%/*}
 
 test -n "$USER" || fail "missing user"
@@ -89,8 +89,11 @@ if [ \`id -un\` != "root" ]; then
   exit 1
 fi
 
+# Find the oldest ssh authentication socket for this user, to ensure that
+# forwarded connections do not lose their credentials:
+OLDEST_SOCK=$(find /tmp/ssh-* -user ${username} -name agent\* -printf '%T@ %p\n' 2>/dev/null | sort -k 1nr | sed 's/^[^ ]* //' | tail -n 1)
 # automount(8) sends -a -x -oClearAllForwardings=yes -2 HOST -s sftp
-exec sudo -H -u ${username} -i ${PREFIX}/bin/autosshfs-ssh "\${5}"
+exec sudo -H -u ${username} -i ${PREFIX}/bin/autosshfs-ssh "\${5}" $OLDEST_SOCK
 ${generator}
 EOD
 fi

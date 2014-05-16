@@ -72,6 +72,12 @@ export SSH_ASKPASS
 # Load the keychain environment
 eval $(keychain -q --eval)
 
+# Set the SSH authentication socket, if one was provided by the user wrapper
+if [ -n "${2}" ]; then
+  SSH_AUTH_SOCK=${2}
+  export SSH_AUTH_SOCK
+fi
+
 # Run the SSH command
 # autosshfs-as-USER passes the HOST to ssh to as $1
 exec ssh -a -x -2 -oClearAllForwardings=yes "${1}" -s sftp
